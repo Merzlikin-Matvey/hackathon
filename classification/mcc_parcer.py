@@ -1,9 +1,13 @@
 import requests
+import pandas as pd
 from bs4 import BeautifulSoup as BS
 
 request = requests.get(f'https://mcc-codes.ru/search/?q={'KFC'}')
 bs = BS(request.content, 'html.parser')
 
+all_organisations = pd.read_excel('../data/data.xlsx')['merchant_name'].unique()
+
 data = list(bs.findAll("a"))
 for i in data:
-    if i.text.isdigit(): print(i.text) 
+    if i.text.isdigit(): print(i.text)
+
