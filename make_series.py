@@ -1,6 +1,6 @@
 import pandas as pd
 import numpy as np
-
+from statsmodels.tsa.stattools import adfuller
 
 # Экспоненциальное сглаживание
 def exponential_smoothing(series, alpha):
@@ -13,7 +13,11 @@ def get_all_dates():
     return pd.date_range(start='2022-01-01', end='2022-12-31', freq='D')
 
 # Создадим временной ряд для категории
-def make_series(df, category, smooth=False, alpha=0.15):
+def make_series(df,
+                category,
+                is_exponential_smoothing=False,
+                alpha=0.15,
+                ):
     if isinstance(category, str):
         category = [category]
 
@@ -40,7 +44,20 @@ def make_series(df, category, smooth=False, alpha=0.15):
 
         values.append(np.median(temp))
 
-    if smooth:
-        values = exponential_smoothing(values, alpha)
+    values = np.array(values)
 
+    if is_exponential_smoothing:
+        values = exponential_smoothing(values, alpha)
     return values
+
+
+# Тест Дики-Фуллера на стационарность
+def test_stationarity(timeseries):
+    timeseries = pd.Series(timeseries)
+
+    print('Results of Dickey-Fuller Test:')
+    dftest = adfuller(timeseries, autolag='AIC')
+    dfoutput = pd.Series(dftest[0:4], index=['Test Statistic', 'p-value', '#Lags Used', 'Number of Observations Used'])
+    for key, value in dftest[4].items():
+        dfoutput['Critical Value (%s)' % key] = value
+    print(dfoutput)
