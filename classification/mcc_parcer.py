@@ -8,7 +8,7 @@ bs = BS(request.content, 'html.parser')
 
 try:
     all_organisations = pd.read_excel('../data/clear_data.xlsx')['merchant_name'].unique()
-except:
+except FileNotFoundError:
     all_organisations = pd.read_excel('data/clear_data.xlsx')['merchant_name'].unique()
 
 
@@ -19,7 +19,7 @@ for i in data:
     if i.text.isdigit(): 
         print(i.text)
         try:
-            print(i['data-original-title'])
+            print(i['title'])
         except:
             100
 
