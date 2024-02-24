@@ -12,4 +12,3 @@ for i in data:
     if i.text.isdigit(): print(i.text)
 
 
-#%%
