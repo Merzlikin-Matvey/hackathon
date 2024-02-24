@@ -10,7 +10,7 @@ def exponential_smoothing(series, alpha):
     return result
 
 def get_all_dates():
-    return pd.date_range(start='2022-01-01', end='2022-12-31', freq='D')
+    return pd.date_range(start='2022-01-01', end='2023-01-31', freq='D')
 
 # Создадим временной ряд для категории
 def make_series(df,
@@ -27,7 +27,7 @@ def make_series(df,
     # Оставим только дату и нормированный кешбек
     data = data[['day', 'cashback_norm']]
 
-    # Получим все даты с 01.01.2022 по 31.12.2022
+    # Получим все даты с 01.01.2022 по 01.01.2023
     dates = get_all_dates()
 
     values = []
@@ -42,7 +42,7 @@ def make_series(df,
         else:
             temp = np.array([0])
 
-        values.append(np.median(temp))
+        values.append(np.mean(temp))
 
     values = np.array(values)
 
