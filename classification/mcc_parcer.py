@@ -5,8 +5,7 @@ import requests
 import pandas as pd
 from bs4 import BeautifulSoup as BS
 
-file = open("classification/mcc_codes.json", "w", encoding="utf-8")
-# Запись всех комапаний из исторических данных
+file = open("classification/train_mcc_codes.json", "w", encoding="utf-8")
 try:
     all_organisations = pd.read_excel('../data/clear_data.xlsx')['merchant_name'].unique()
 except FileNotFoundError:
@@ -33,12 +32,14 @@ for organisation in all_organisations:
     print(f'PROGRESS {progress}/{len(all_organisations)}')
 
 json.dump(data, file, indent=4, ensure_ascii=False)
-file.close()# Реплит норм тема
+file.close()
+# Реплит норм тема
+# Нет
 
 
 # Функция для получения типа фирмы
 # На выходе список из типа фирмы и его mcc код или None если типа фирмы не найдено
-def Get_type(org_name: str):# На вход подается название
+def get_type(org_name: str):# На вход подается название
     request = requests.get(f'https://mcc-codes.ru/search/?q={'+'.join(org_name.split())}') # Открываем поиск кодов для кампании
     bs = BS(request.content, 'html.parser')
     objects = list(bs.findAll("a")) # Ищем все коды
