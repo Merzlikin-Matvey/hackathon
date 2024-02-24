@@ -19,3 +19,6 @@ def get_days_diff(date1, date2):
 def get_next_day(date):
     date = datetime.date(*map(int, date.split('-'))) + datetime.timedelta(days=1)
     return str(date)
+
+def transform(value, minimum, maximum):
+    return (value - minimum) / (maximum - minimum)
