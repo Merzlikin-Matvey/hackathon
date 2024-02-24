@@ -1,4 +1,5 @@
 # Перед запуском: pip install requests pandas beautifulsoup4 openpyxl
+
 import json
 import requests
 import pandas as pd
@@ -35,4 +36,20 @@ json.dump(data, file, indent=4, ensure_ascii=False)
 file.close()# Реплит норм тема
 
 
-
+# Функция для получения типа фирмы
+# На выходе список из типа фирмы и его mcc код или None если типа фирмы не найдено
+def Get_type(org_name: str):# На вход подается название
+    request = requests.get(f'https://mcc-codes.ru/search/?q={'+'.join(org_name.split())}') # Открываем поиск кодов для кампании
+    bs = BS(request.content, 'html.parser')
+    objects = list(bs.findAll("a")) # Ищем все коды
+    org_types = []
+    mcc_codes = []
+    for i in objects:
+        if i.text.isdigit(): 
+            if len(str(int(i.text))) == 4:
+                # Запоминаем тип фирмы
+                org_types.append(i['title'])
+                mcc_codes.append(i.text)
+    # Запись в файл
+    if org_types == []: return None
+    else: return [max(org_types, key= lambda x: org_types.count(x)), max(mcc_codes, key= lambda x: mcc_codes.count(x))]
