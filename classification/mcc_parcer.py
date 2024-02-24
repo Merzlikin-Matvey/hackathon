@@ -1,4 +1,4 @@
-#Перед запуском: pip install requests pandas beautifulsoup4
+#Перед запуском: pip install requests pandas beautifulsoup4 openpyxl
 import requests
 import pandas as pd
 from bs4 import BeautifulSoup as BS
@@ -15,6 +15,12 @@ except:
 print(all_organisations)
 data = list(bs.findAll("a"))
 for i in data:
-    if i.text.isdigit(): print(i.text)
+
+    if i.text.isdigit(): 
+        print(i.text)
+        try:
+            print(i['data-original-title'])
+        except:
+            100
 
 
