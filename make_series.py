@@ -31,7 +31,7 @@ def make_series(df,
     data = df[df['category'].isin(category)]
 
     # Оставим только дату и нормированный кешбек
-    data = data[['day', 'cashback_norm']]
+    data = data[['day', 'z_cashback_norm']]
 
     # Получим все даты с 01.01.2022 по 01.01.2023
     dates = get_all_dates()
@@ -42,7 +42,7 @@ def make_series(df,
 
         # Если дата есть в данных, то добавим значение кешбека
         if date in data['day'].values:
-            temp = data[data['day'] == date]['cashback_norm'].values
+            temp = data[data['day'] == date]['z_cashback_norm'].values
 
         # Иначе добавим 0
         else:
