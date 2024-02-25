@@ -23,3 +23,4 @@ MCC : мы берем тип магазина (продуктовый,ресто
 Папка [helpful](helpful.py) содержит все полезные функции для работой с датой.
 
 В [normalize_data](normalize_data.ipynb) мы отпарвляем обработанные данные и преобразуем значения cashback в диапазон от 0 до 1 в завимости от максимума и минимума для каждого merchant_name.
+[Сreating_time_series_example](creating_time_series_example.ipynb) - пример создания временого ряда , а [make_series](make_series.py) - это уже точный файл ,который создает временной ряд и сглаживает его.
