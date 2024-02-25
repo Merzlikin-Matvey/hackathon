@@ -13,11 +13,17 @@ def get_all_dates():
     return pd.date_range(start='2022-01-01', end='2023-01-31', freq='D')
 
 # Создадим временной ряд для категории
+def rolling_mean(series, value):
+    return series.rolling(window=value).mean()
+
 def make_series(df,
                 category,
                 is_exponential_smoothing=False,
                 alpha=0.15,
+                is_rolling_mean=False,
+                rolling_value=20
                 ):
+    
     if isinstance(category, str):
         category = [category]
 
@@ -48,6 +54,8 @@ def make_series(df,
 
     if is_exponential_smoothing:
         values = exponential_smoothing(values, alpha)
+    elif is_rolling_mean:
+        values= rolling_mean(values, rolling_value)
     return values
 
 
@@ -60,4 +68,6 @@ def test_stationarity(timeseries):
     dfoutput = pd.Series(dftest[0:4], index=['Test Statistic', 'p-value', '#Lags Used', 'Number of Observations Used'])
     for key, value in dftest[4].items():
         dfoutput['Critical Value (%s)' % key] = value
+
     print(dfoutput)
+  
